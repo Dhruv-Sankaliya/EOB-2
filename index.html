@@ -3,121 +3,301 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eob project</title>
+  <title>Eob - Portfolio</title>
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top, #1e1b3a, #0d0b1a 60%);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      color: #fff;
+      box-sizing: border-box;
     }
 
-    /* Floating Orbs */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background Orbs */
+    .background-orbs {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
     .orb {
       position: absolute;
-      width: 220px;
-      height: 220px;
-      background: linear-gradient(135deg, #6a5af9aa, #00eaffaa);
       border-radius: 50%;
-      filter: blur(60px);
-      animation: float 12s infinite ease-in-out;
+      filter: blur(80px);
+      opacity: 0.15;
     }
-    .orb:nth-child(1){ top: 10%; left: 12%; animation-delay: -3s; }
-    .orb:nth-child(2){ bottom: 8%; right: 15%; animation-delay: -6s; }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
+      top: -100px;
+      left: -100px;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .orb-2 {
+      width: 350px;
+      height: 350px;
+      background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+      bottom: -50px;
+      right: -50px;
+      animation: float 25s infinite ease-in-out reverse;
+    }
 
     @keyframes float {
-      0%{ transform: translateY(0) translateX(0); }
-      50%{ transform: translateY(-60px) translateX(40px); }
-      100%{ transform: translateY(0) translateX(0); }
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(30px, -30px); }
+      50% { transform: translate(0, -60px); }
+      75% { transform: translate(-30px, -30px); }
     }
 
-    /* Main Card */
-    .container {
-      width: 85%;
-      max-width: 850px;
-      padding: 40px;
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(22px);
-      border-radius: 26px;
-      border: 1px solid rgba(255,255,255,0.15);
-      box-shadow: 0 0 35px rgba(0,0,0,0.4);
-      z-index: 2;
+    /* Main Content */
+    .content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    /* Header */
+    header {
       text-align: center;
-      animation: popIn 0.8s ease forwards;
+      margin-bottom: 60px;
+      animation: slideDown 0.8s ease-out;
     }
 
-    @keyframes popIn {
-      0%{ transform: scale(0.8); opacity: 0; }
-      100%{ transform: scale(1); opacity: 1; }
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     h1 {
-      font-size: 38px;
-      margin-bottom: 10px;
-      letter-spacing: 1.5px;
-      font-weight: 700;
-      text-shadow: 0 0 12px #8a72ff88;
+      font-size: 56px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
     }
 
-    p.subtitle {
+    .tagline {
+      font-size: 20px;
+      color: #a0a0a0;
+      margin-bottom: 12px;
+      font-weight: 300;
+    }
+
+    .subtitle {
       font-size: 16px;
-      opacity: 0.85;
-      margin-bottom: 35px;
+      color: #707070;
+      max-width: 600px;
     }
 
-    .btn-wrapper {
+    /* Projects Grid */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 60px;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(20px);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
-      justify-content: center;
-      gap: 22px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      animation: scaleIn 0.6s ease-out;
+      animation-fill-mode: both;
     }
 
-    .btn {
-      padding: 18px 28px;
-      min-width: 240px;
-      background: linear-gradient(135deg, #8a72ff, #18d2ff);
+    .project-card:nth-child(1) { animation-delay: 0.1s; }
+    .project-card:nth-child(2) { animation-delay: 0.2s; }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .project-card:hover {
+      border-color: rgba(59, 130, 246, 0.3);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.1);
+      transform: translateY(-8px);
+    }
+
+    .project-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .project-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .project-description {
+      font-size: 14px;
+      color: #a0a0a0;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
       color: #fff;
       text-decoration: none;
-      font-size: 18px;
+      border-radius: 12px;
       font-weight: 600;
-      border-radius: 18px;
-      transition: 0.25s;
-      box-shadow: 0 0 18px rgba(90,75,255,0.4);
+      font-size: 14px;
+      transition: all 0.25s;
+      border: none;
+      cursor: pointer;
+      gap: 8px;
     }
 
-    .btn:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 0 28px rgba(120,85,255,0.7);
+    .project-link:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
     }
 
     /* Footer */
-    .footer {
-      margin-top: 35px;
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      color: #606060;
       font-size: 14px;
-      opacity: 0.55;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 40px;
+      }
+
+      .tagline {
+        font-size: 18px;
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .project-card {
+        padding: 24px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="orb"></div>
-  <div class="orb"></div>
-
-  <div class="container">
-    <h1>Eob project</h1>
-    <p class="subtitle"></p>
-
-    <div class="btn-wrapper">
-      <a class="btn" href="https://dna-decryptor.bolt.host" target="_blank">DNA Decryptor</a>
-      <a class="btn" href="https://shortest-path-finding.vercel.app/" target="_blank">Shortest Path Finder</a>
-    </div>
-
-    <div class="footer">Designed for seamless exploration</div>
+  <div class="background-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
   </div>
+
+  <div class="content">
+    <header>
+      <h1>Eob</h1>
+      <p class="tagline">Innovative Projects & Solutions</p>
+      <p class="subtitle">Explore cutting-edge applications designed to solve real-world problems</p>
+    </header>
+
+    <div class="projects">
+      <div class="project-card">
+        <div class="project-icon">🧬</div>
+        <h2 class="project-title">DNA Decryptor</h2>
+        <p class="project-description">Decode and analyze DNA sequences with advanced computational algorithms. Explore genetic information like never before.</p>
+        <div class="project-tags">
+          <span class="tag">Bioinformatics</span>
+          <span class="tag">Algorithm</span>
+          <span class="tag">Analysis</span>
+        </div>
+        <a href="https://dna-decryptor.bolt.host" target="_blank" class="project-link">
+          Visit Project
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🗺️</div>
+        <h2 class="project-title">Shortest Path Finder</h2>
+        <p class="project-description">Find optimal routes through complex networks using advanced pathfinding algorithms. Perfect for navigation and optimization.</p>
+        <div class="project-tags">
+          <span class="tag">Graph Algorithms</span>
+          <span class="tag">Optimization</span>
+          <span class="tag">Routing</span>
+        </div>
+        <a href="https://shortest-path-finding.vercel.app/" target="_blank" class="project-link">
+          Visit Project
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Eob. All rights reserved. | Designed for seamless exploration</p>
+  </footer>
 </body>
 </html>
